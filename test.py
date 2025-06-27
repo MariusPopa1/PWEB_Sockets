@@ -37,7 +37,7 @@ def get_http_status_code_and_text(hostname, path="/"):
     return  text
 
 if __name__ == "__main__":
-    hostname = "www.google.com"
+    hostname = "http://google.com"
     path = "/"
 
     clean_text = get_http_status_code_and_text(hostname, path)

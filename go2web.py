@@ -72,7 +72,28 @@ def main():
         print(text)
         return
 
+    elif sys.argv[1] == "-s" and len(sys.argv) > 2:
+        query = quote(" ".join(sys.argv[2:]))
+        hostname = "www.bing.com"
+        path = f"/search?q={query}"
+        raw_response = fetch_https_resource(hostname, path)
 
+        if "\r\n\r\n" not in raw_response:
+            print("[Error] Could not fetch or parse Bing results.")
+            return
+
+        _, body = raw_response.split("\r\n\r\n", 1)
+        soup = BeautifulSoup(body, "html.parser")
+
+        results = soup.find_all("li", class_="b_algo")
+        for i, result in enumerate(results[:10], 1):
+            title_tag = result.find("h2")
+            if title_tag and title_tag.a:
+                title = title_tag.get_text(strip=True)
+                link = title_tag.a["href"]
+                print(f"{i}. {title}\n   Link: {link}\n")
+    else:
+        print("[Error] Invalid arguments. Use -h for help.")
 
 
 if __name__ == "__main__":
