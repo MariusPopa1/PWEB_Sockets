@@ -14,17 +14,6 @@ def print_help():
 
 
 
-def cleanSoup(script):
-    script = script.replace("4000", "")
-    script = script.replace("8000", "")
-    anomaly = script.find('ku": "10866"')
-    normal = script.find('"sku": "10866"')
-    print(anomaly)
-    if anomaly != -1 and normal == -1:
-        script = script[:anomaly-4] + script[anomaly:]
-    return script
-
-
 # Fetch HTTPS resource using the custom function
 
 def fetch_https_resource(hostname, path):
